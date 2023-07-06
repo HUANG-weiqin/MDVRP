@@ -7,6 +7,9 @@ public class NodesManager {
     public List<ClientNode> clients= new ArrayList<>();
     public List<DepotNode> depots= new ArrayList<>();
 
+    public Set<ClientNode> boderlineClients = new HashSet<>();
+    public Map<ClientNode,DepotNode> nonBoderlineClientsInitDepot = new Hashtable<>();
+
     public int nbClients;
     public int nbDepots;
 
@@ -52,6 +55,19 @@ public class NodesManager {
             scanner.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }
+
+        updateBoderlineClients();
+    }
+
+    private void updateBoderlineClients(){
+        for (ClientNode client: clients) {
+            DepotNode depot = Algo.BorderLineTest(client,depots);
+            if (depot == null){
+                boderlineClients.add(client);
+            }else {
+                nonBoderlineClientsInitDepot.put(client,depot);
+            }
         }
     }
 

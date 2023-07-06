@@ -1,3 +1,5 @@
+import java.util.Collections;
+
 public class Main {
 
 
@@ -9,8 +11,21 @@ public class Main {
     }
     public static Solution vnsLocally(){return null;}
     public static Solution borderlineInsertion(Solution solution){
-        Algo.LocalOptimalBorderlineInsertion(solution);
-        return solution;
+        Solution bestSol = new  Solution(solution);
+        Algo.LocalOptimalBorderlineInsertion(bestSol);
+        float bestDis = bestSol.evaluatDistance();
+        for(int i=0;i<10000;++i){
+            Solution tmp = new Solution(solution);
+            Collections.shuffle(tmp.borderlineClientsToInsert);
+            Algo.LocalOptimalBorderlineInsertion(tmp);
+            float dis = tmp.evaluatDistance();
+            if(dis < bestDis){
+                bestSol = tmp;
+                bestDis = dis;
+            }
+        }
+
+        return bestSol;
     }
     public static void vnsGlobally(){}
     public static void diversify(){}
@@ -18,7 +33,7 @@ public class Main {
     public static void main(String[] args) {
         Solution solution = initialisation();
         System.out.println(solution);
-        borderlineInsertion(solution);
+        solution = borderlineInsertion(solution);
         System.out.println(solution);
 
     }

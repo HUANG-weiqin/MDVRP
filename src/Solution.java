@@ -26,8 +26,8 @@ public class Solution {
         this.nodesManager = solution.nodesManager;
         borderlineClientsToInsert = new LinkedList<>(solution.borderlineClientsToInsert);
         Routs = new Hashtable<>();
-        for (DepotNode depot:Routs.keySet()) {
-            Routs.put(depot,new Route(Routs.get(depot)));
+        for (DepotNode depot: solution.Routs.keySet()) {
+            Routs.put(depot,new Route(solution.Routs.get(depot)));
         }
     }
 

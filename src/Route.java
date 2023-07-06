@@ -44,6 +44,14 @@ public class Route {
         return Point.distance(cur,newcomer) + Point.distance(newcomer,next) - Point.distance(cur,next);
     }
 
+    public Point getNext(Point p){
+        return nexts.get(p);
+    }
+
+    public Point getPrev(Point p){
+        return prevs.get(p);
+    }
+
     @Override
     public String toString() {
         String res = "";

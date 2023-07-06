@@ -4,7 +4,7 @@ public class Main {
 
 
     public static Solution initialisation(){
-        NodesManager instance1= new NodesManager("C:\\Users\\11053\\Desktop\\michel\\mdvrp\\evovrp-master\\datasets\\C-mdvrp\\p05");
+        NodesManager instance1= new NodesManager("C:\\Users\\ASUS\\Desktop\\michel\\MDVRP-Instances-master\\MDVRP-Instances-master\\dat\\p05");
         System.out.println(instance1);
         Solution initSolution = new Solution(instance1);
         return  initSolution;
@@ -14,7 +14,7 @@ public class Main {
         Solution bestSol = new  Solution(solution);
         Algo.LocalOptimalBorderlineInsertion(bestSol);
         float bestDis = bestSol.evaluatDistance();
-        for(int i=0;i<10000;++i){
+        for(int i=0;i<10;++i){
             Solution tmp = new Solution(solution);
             Collections.shuffle(tmp.borderlineClientsToInsert);
             Algo.LocalOptimalBorderlineInsertion(tmp);
@@ -24,7 +24,7 @@ public class Main {
                 bestDis = dis;
             }
         }
-
+        Algo.SolutionToLocalOptimal(bestSol);
         return bestSol;
     }
     public static void vnsGlobally(){}

@@ -1,26 +1,62 @@
 import javafx.util.Pair;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+@FunctionalInterface
+interface evalFunc {
+    float eval(Point a, Point b,Point c);
+}
 public class Algo {
     public static float borderlineFactor = 0.7f;
-    public static Pair<Point,Float> optimalDistancePosOfInsertionToRoute(Route route, ClientNode c){
 
-        Point bestcur = null;
-        float minDis = Float.MAX_VALUE;
-
+    public static List<PointEvaluationRes>  RoutTraveler(Route route,ClientNode client,evalFunc evaluator){
+        List<PointEvaluationRes> res = new ArrayList<>();
         Point cur = route.depot;
-        Point next = route.nexts.get(route.depot);
+        Point next = route.getNext(cur);
         do {
-            float newDis = Route.insertionDistance(c,cur,next);
-            if(newDis < minDis){
-                minDis = newDis;
-                bestcur = cur;
-            }
+            float dis = evaluator.eval(client,cur,next);
+            res.add(new PointEvaluationRes(cur,dis));
+            cur = next;
+            next = route.getNext(next);
         }while (cur!=route.depot);
 
-        return new Pair<Point,Float>(bestcur,minDis);
+        Collections.sort(res);
+        return  res;
     }
+
+
+    public static PointEvaluationRes optimalDistancePosOfInsertionToRoute(Route route, ClientNode client){
+        return RoutTraveler(route,client,(a,b,c)->Route.insertionDistance(a,b,c)).get(0);
+    }
+
+    public static boolean RouteMoveOneStepToLocalOptmal(Route route){
+        Point cur = route.getNext(route.depot);
+        float removeScore = Route.insertionDistance(cur,route.depot,route.getNext(cur));
+        while (cur != route.depot) {
+            PointEvaluationRes res =  RoutTraveler(route,(ClientNode) cur,
+                    (toInsert,a,b)->{
+                        return Route.insertionDistance(toInsert,a,b) - removeScore;
+                    }
+                    ).get(0);
+            if(res.score < 0){
+                System.out.println(res.score);
+                route.remove(cur);
+                route.insert(res.point,(ClientNode) cur);
+                return true;
+            }
+            cur = route.getNext(cur);
+        }
+        return false;
+    }
+
+    public static void SolutionToLocalOptimal(Solution solution){
+        for (Route route:solution.Routs.values()) {
+            while (RouteMoveOneStepToLocalOptmal(route));
+        }
+    }
+
 
     public static DepotNode BorderLineTest(ClientNode client, List<DepotNode> depots){
         if(depots.size() == 0)
@@ -47,11 +83,11 @@ public class Algo {
             Point bestPoint = null;
             float bestDis = Float.MAX_VALUE;
             for (Route route:solution.Routs.values()) {
-                Pair<Point,Float>  res = optimalDistancePosOfInsertionToRoute(route,bclient);
-                if(bestDis > res.getValue()){
-                    bestDis = res.getValue();
+                PointEvaluationRes  res = optimalDistancePosOfInsertionToRoute(route,bclient);
+                if(bestDis > res.score){
+                    bestDis = res.score;
                     bestRout = route;
-                    bestPoint = res.getKey();
+                    bestPoint = res.point;
                 }
             }
             if(bestRout!=null){

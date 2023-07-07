@@ -1,5 +1,7 @@
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
 public class Route {
@@ -37,6 +39,8 @@ public class Route {
         Point prev = prevs.get(cur);
         nexts.put(prev,next);
         prevs.put(next,prev);
+        nexts.remove(cur);
+        prevs.remove(cur);
         distance -= insertionDistance(cur,prev,next);
     }
 
@@ -51,6 +55,16 @@ public class Route {
     public Point getPrev(Point p){
         return prevs.get(p);
     }
+
+    public List<ClientNode> getClientsByOrder(){
+        List<ClientNode> res = new ArrayList<>();
+        Point cur = getNext(depot);
+        while (cur != depot) {
+            res.add((ClientNode) cur);
+            cur = getNext(cur);
+        }
+        return res;
+    };
 
     @Override
     public String toString() {

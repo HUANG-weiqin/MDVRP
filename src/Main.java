@@ -55,5 +55,6 @@ public class Main {
         }
         System.out.println("\n*******************\n");
         System.out.println("best: " + bestSol.evaluatDistance());
+        System.out.println("real distance: " + Algo.evaluateSolution(bestSol));
     }
 }

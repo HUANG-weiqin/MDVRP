@@ -13,7 +13,7 @@ public class NodesManager {
     public int nbClients;
     public int nbDepots;
 
-    public Set<Integer> carCapacity = new HashSet<>();
+    public List<Integer> carCapacity = new ArrayList<>();
 
     private String[] readLine(Scanner scanner){
         return scanner.nextLine().trim().split("\\s+");
@@ -32,8 +32,11 @@ public class NodesManager {
             for(int i=0;i<nbDepots;++i){
                 String[] numbers = readLine(scanner);
                 int capacity = Integer.parseInt(numbers[1]);
-                carCapacity.add(capacity);
+                if(! carCapacity.contains(capacity))
+                    carCapacity.add(capacity);
             }
+
+            Collections.sort(carCapacity);
 
             for(int i=0;i<nbClients;++i){
                 String[] numbers = readLine(scanner);

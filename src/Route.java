@@ -66,6 +66,35 @@ public class Route {
         return res;
     };
 
+    public int size(){
+        return nexts.size();
+    }
+
+    public float getSubCircleDistance(ClientNode from,ClientNode to){
+        if(from == to){
+            return 2*Point.distance(from,depot);
+        }
+        float res = Point.distance(from,depot) + Point.distance(to,depot);
+        Point cur = from;
+        Point next = getNext(from);
+        while (cur!=to){
+            res += Point.distance(cur,next);
+            cur = next;
+            next = getNext(next);
+        }
+        return res;
+    }
+
+    public int getSubRoutDemand(ClientNode from,ClientNode to){
+        int res = from.demand;
+        ClientNode cur = from;
+        while (cur!=to){
+            res += cur.demand;
+            cur = (ClientNode) getNext(cur);
+        }
+        return res;
+    }
+
     @Override
     public String toString() {
         String res = "";

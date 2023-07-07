@@ -4,10 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="05064f55-2d66-42dc-90ba-d40a2e5d2d9b" name="Changes" comment="boderline insertion opt">
+    <list default="true" id="05064f55-2d66-42dc-90ba-d40a2e5d2d9b" name="Changes" comment="vnsLocally">
+      <change afterPath="$PROJECT_DIR$/src/shortestPath/Graph.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/shortestPath/Path.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Algo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Algo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ClientNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ClientNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NodesManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NodesManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Route.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Route.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -25,11 +29,11 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -99,7 +103,14 @@
       <option name="project" value="LOCAL" />
       <updated>1688604813828</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="vnsLocally">
+      <created>1688688096576</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1688688096576</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -117,7 +128,19 @@
     <MESSAGE value="load instance" />
     <MESSAGE value="route manager" />
     <MESSAGE value="optimisation 1version" />
-    <option name="LAST_COMMIT_MESSAGE" value="optimisation 1version" />
+    <MESSAGE value="vnsLocally" />
+    <option name="LAST_COMMIT_MESSAGE" value="vnsLocally" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Algo.java</url>
+          <line>175</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MDVRP_NeighbourhoodSearch$Main.ic" NAME="Main Coverage Results" MODIFIED="1688683664810" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

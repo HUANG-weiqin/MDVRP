@@ -1,4 +1,6 @@
 import javafx.util.Pair;
+import shortestPath.Graph;
+import shortestPath.Path;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -147,8 +149,40 @@ public class Algo {
             }
             limit-=cost;
         }
-
         System.out.println(RoutDiff(ori,route));
+    }
+
+    public static Graph buildCostGraphFromRouteWithCapacity(Route route,List<Integer> capacities){
+        Graph costGraph = new Graph(route.size());
+
+        List<ClientNode> clientRoute= route.getClientsByOrder();
+        for (int capacity:capacities) {
+            for(int i=0;i<clientRoute.size();++i){
+                ClientNode from = clientRoute.get(i);
+                for(int j=i;j<clientRoute.size();++j){
+                    ClientNode to = clientRoute.get(j);
+                    if(route.getSubRoutDemand(from,to) > capacity)
+                        break;
+                    costGraph.setEdge(i,j+1,route.getSubCircleDistance(from,to));
+                }
+            }
+        }
+        return costGraph;
+    }
+
+    public static Path getRouteOptimalSubPath(Route route,List<Integer> capacities){
+        Graph costGraph = buildCostGraphFromRouteWithCapacity(route,capacities);
+        int depotNodeIdx = route.size()-1;
+        return costGraph.getShortestPath(depotNodeIdx);
+    }
+
+    public static float evaluateSolution(Solution solution){
+        float res = 0;
+        for (Route route:solution.Routs.values()) {
+            Path path = getRouteOptimalSubPath(route,solution.nodesManager.carCapacity);
+            res += path.distance;
+        }
+        return res;
     }
 
 }

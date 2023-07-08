@@ -66,7 +66,7 @@ public class Main {
     public static void termination(){}
 
     public static void main(String[] args) {
-        Solution solution = initialisation("src\\dataSet\\p07");
+        Solution solution = initialisation("src\\dataSet\\p15");
         solution = vnsLocally(solution,100,false);
         solution = borderlineInsertion(solution);
         solution = vnsLocally(solution,100,false);
@@ -75,13 +75,15 @@ public class Main {
         float bestPoint = Algo.evaluateSolution(bestSolution);
         for (int i=0;i<50;++i){
             System.out.println("---step--->"+i);
-            solution = vnsLocally(solution,100,true);
+            solution = vnsLocally(solution,30,true);
             solution = vnsGlobally(solution);
             float tmpPoint = Algo.evaluateSolution(solution);
             if(tmpPoint<=bestPoint){
                 bestSolution = new Solution(solution);
                 bestPoint = tmpPoint;
             }
+            else if(bestPoint - tmpPoint > 50)
+                solution = new Solution(bestSolution);
         }
 
         System.out.println("BEST RESULT ------------> "+ bestPoint);

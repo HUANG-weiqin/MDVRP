@@ -2,30 +2,19 @@ import java.util.Collections;
 
 public class Main {
 
-
     public static Solution initialisation(){
-        NodesManager instance1= new NodesManager("C:\\Users\\11053\\Desktop\\michel\\mdvrp\\evovrp-master\\datasets\\C-mdvrp\\p12");
+        NodesManager instance1= new NodesManager("src\\dataSet\\p17");
         Solution solution = new Solution(instance1);
         return  solution;
-    }
-    public static Solution vnsLocally(Solution solution){
-        for (Route route:solution.Routs.values()) {
-            while (Algo.RouteMoveOneStepToLocalOptimal(route));
-        };
-        return solution;
     }
     public static Solution borderlineInsertion(Solution solution){
         Algo.LocalOptimalBorderlineInsertion(solution);
         return solution;
     }
-    public static void vnsGlobally(){}
+
     public static void diversifyLocal(Route route,float limit){
         Algo.DiversificationToLimit(route,limit,1f,1.3f);
     }
-    public static Solution diversifyGlobal(Solution solution){
-        return null;
-    }
-    public static void termination(){}
 
     public static float percent(float start,float fin,float maxStep,float step,boolean inverse){
         if(inverse)
@@ -33,39 +22,68 @@ public class Main {
         return start + fin*step/maxStep;
     }
 
+    public static float evaluator(Solution solution,boolean byRealDistance){
+        if(byRealDistance)
+            return Algo.evaluateSolution(solution);
+        else
+            return solution.evaluatDistance();
+    }
 
-    public static void main(String[] args) {
-        Solution solution = initialisation();
-        solution = borderlineInsertion(solution);
+    public static Solution vnsLocally(Solution solution,int maxstep,boolean byRealDistance){
 
-        float bestDist= solution.evaluatDistance();
-        Solution bestSol = solution;
-        int maxstep = 100;
+        float bestDist= evaluator(solution,byRealDistance);
+        Solution bestSol = solution;;
         for(int i=0;i<maxstep;++i) {
             for (Route route:solution.Routs.values()) {
                 diversifyLocal(route,3 + route.distance*percent(0.05f,0.5f,maxstep,i,true));
             }
 
-            solution = vnsLocally(solution);
-            if(bestDist > solution.evaluatDistance()){
-                bestDist = solution.evaluatDistance();
+            for (Route route:solution.Routs.values()) {
+                while (Algo.RouteMoveOneStepToLocalOptimal(route));
+            };
+
+            float dis = evaluator(solution,byRealDistance);
+            if( dis < bestDist){
+                bestDist = dis;
                 bestSol = new Solution(solution);
             }
-            else {
-                int rand = Algo.getRandomInt(0,200);
-                if (rand<10)
-                {
-                    //Algo.solutionToLocalOptimal(solution);
-                    Algo.solutionToLocalOptimalByRealScore(solution);
-                }
-
-            }
-            System.out.println("------step: "+i + " cur-score: " + solution.evaluatDistance() + " best-score: " + bestDist);
         }
-        System.out.println("real distance befor: " + Algo.evaluateSolution(bestSol));
-        Algo.solutionToLocalOptimalByRealScore(bestSol);
-        System.out.println("\n*******************\n");
-        System.out.println("best: " + bestSol.evaluatDistance());
-        System.out.println("real distance: " + Algo.evaluateSolution(bestSol));
+        System.out.println("RealDistance: "+ byRealDistance + "  BestDis: " +bestDist);
+        return bestSol;
+    }
+
+    public static void diversifyGlobal(Solution solution){
+        for (Route route:solution.Routs.values()) {
+            diversifyLocal(route,route.distance*0.2f);
+        }
+        return;
+    }
+
+    public static Solution vnsGlobally( Solution solution ){
+        float reduce = Algo.solutionMoveOneStepToLocalOptimalByRealDistance(solution);
+        return solution;
+    }
+    public static void termination(){}
+
+    public static void main(String[] args) {
+        Solution solution = initialisation();
+        solution = vnsLocally(solution,100,false);
+        solution = borderlineInsertion(solution);
+        solution = vnsLocally(solution,100,false);
+
+        Solution bestSolution = new Solution(solution);
+        float bestPoint = Algo.evaluateSolution(bestSolution);
+        for (int i=0;i<50;++i){
+            System.out.println("---step--->"+i);
+            solution = vnsLocally(solution,100,true);
+            solution = vnsGlobally(solution);
+            float tmpPoint = Algo.evaluateSolution(solution);
+            if(tmpPoint<=bestPoint){
+                bestSolution = new Solution(solution);
+                bestPoint = tmpPoint;
+            }
+        }
+
+        System.out.println("BEST RESULT ------------> "+ bestPoint);
     }
 }

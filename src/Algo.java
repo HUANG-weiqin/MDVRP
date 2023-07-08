@@ -270,7 +270,6 @@ public class Algo {
                 }
             }
         }
-        System.out.println("Solution reduce:" + res);
         return res;
     }
 

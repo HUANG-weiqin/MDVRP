@@ -40,7 +40,7 @@ public class Main {
 
         float bestDist= solution.evaluatDistance();
         Solution bestSol = solution;
-        int maxstep = 300;
+        int maxstep = 100;
         for(int i=0;i<maxstep;++i) {
             for (Route route:solution.Routs.values()) {
                 diversifyLocal(route,3 + route.distance*percent(0.05f,0.5f,maxstep,i,true));

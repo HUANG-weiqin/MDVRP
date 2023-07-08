@@ -194,11 +194,6 @@ public class Algo {
 
     public static ArrayList<Route> getAllPossibleRouteAfterInsertion(Route route,ClientNode client){
         ArrayList<Route> routes = new ArrayList<>();
-        if(route.nexts.containsKey(client)){
-            route = new Route(route);
-            route.remove(client);
-        }
-
         for (Point cur:route.nexts.keySet()) {
             Route newer = new Route(route);
             newer.insert(cur,client);

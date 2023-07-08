@@ -17,8 +17,7 @@ public class Solution {
                 Routs.put(depot,new Route(depot));
             }
             Route route = Routs.get(depot);
-            PointEvaluationRes res = Algo.optimalDistancePosOfInsertionToRoute(route,client);
-            route.insert(res.point,client);
+            route.insert(depot,client);
         }
     }
 

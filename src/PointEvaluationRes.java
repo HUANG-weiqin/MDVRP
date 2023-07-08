@@ -2,9 +2,11 @@
 
 public class PointEvaluationRes implements Comparable<PointEvaluationRes> {
     public Point point;
-    float score;
+    public float score;
 
-    public PointEvaluationRes(Point point, float score){
+    public Route route;
+    public PointEvaluationRes(Route route,Point point, float score){
+        this.route = route;
         this.point = point;
         this.score = score;
     }

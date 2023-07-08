@@ -4,15 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="05064f55-2d66-42dc-90ba-d40a2e5d2d9b" name="Changes" comment="vnsLocally">
-      <change afterPath="$PROJECT_DIR$/src/shortestPath/Graph.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/shortestPath/Path.java" afterDir="false" />
+    <list default="true" id="05064f55-2d66-42dc-90ba-d40a2e5d2d9b" name="Changes" comment="build graph shortest path split evaluation">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Algo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Algo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ClientNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ClientNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NodesManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NodesManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PointEvaluationRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PointEvaluationRes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Route.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Route.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Solution.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +108,14 @@
       <option name="project" value="LOCAL" />
       <updated>1688688096576</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="build graph shortest path split evaluation">
+      <created>1688770685463</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1688770685463</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -129,15 +134,16 @@
     <MESSAGE value="route manager" />
     <MESSAGE value="optimisation 1version" />
     <MESSAGE value="vnsLocally" />
-    <option name="LAST_COMMIT_MESSAGE" value="vnsLocally" />
+    <MESSAGE value="build graph shortest path split evaluation" />
+    <option name="LAST_COMMIT_MESSAGE" value="build graph shortest path split evaluation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Algo.java</url>
-          <line>175</line>
-          <option name="timeStamp" value="19" />
+          <url>file://$PROJECT_DIR$/src/Main.java</url>
+          <line>64</line>
+          <option name="timeStamp" value="40" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

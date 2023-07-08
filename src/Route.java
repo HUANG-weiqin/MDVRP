@@ -26,6 +26,9 @@ public class Route {
     }
 
     public void insert(Point cur,ClientNode newcomer){
+        if(nexts.containsKey(newcomer)){
+            remove(newcomer);
+        }
         Point next = nexts.get(cur);
         nexts.put(newcomer,next);
         prevs.put(next,newcomer);
@@ -35,6 +38,8 @@ public class Route {
     }
 
     public void remove(Point cur){
+        if(!nexts.containsKey(cur))
+            return;
         Point next = nexts.get(cur);
         Point prev = prevs.get(cur);
         nexts.put(prev,next);
@@ -94,6 +99,7 @@ public class Route {
         }
         return res;
     }
+
 
     @Override
     public String toString() {

@@ -2,8 +2,8 @@ import java.util.Collections;
 
 public class Main {
 
-    public static Solution initialisation(){
-        NodesManager instance1= new NodesManager("src\\dataSet\\p17");
+    public static Solution initialisation(String filePath){
+        NodesManager instance1= new NodesManager(filePath);
         Solution solution = new Solution(instance1);
         return  solution;
     }
@@ -66,7 +66,7 @@ public class Main {
     public static void termination(){}
 
     public static void main(String[] args) {
-        Solution solution = initialisation();
+        Solution solution = initialisation("src\\dataSet\\p07");
         solution = vnsLocally(solution,100,false);
         solution = borderlineInsertion(solution);
         solution = vnsLocally(solution,100,false);

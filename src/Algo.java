@@ -210,7 +210,6 @@ public class Algo {
             PointEvaluationRes peval = new PointEvaluationRes(route,r.getPrev(client),realDis + shift);
             res.add(peval);
         }
-        Collections.sort(res);
         return res;
     }
 
@@ -218,7 +217,7 @@ public class Algo {
         List<PointEvaluationRes> res = new ArrayList<>();
         for (Route route: solution.Routs.values()) {
             List<PointEvaluationRes> tmp = getAllPossiblePosOfInsertionToRouteByRealDistance(route,client,solution.nodesManager.carCapacity,0);
-            res.add( tmp.get(0) );
+            res.add( Collections.min(tmp) );
         }
         Collections.sort(res);
         return res;
@@ -255,13 +254,20 @@ public class Algo {
         for(Route route:solution.Routs.values()) {
             for (ClientNode client:route.getClientsByOrder()) {
                 float s1 = getRouteOptimalSubPath(route,solution.nodesManager.carCapacity).distance;
+                Point recoverPoint = route.getPrev(client);
                 route.remove(client);
                 float s2 = getRouteOptimalSubPath(route,solution.nodesManager.carCapacity).distance;
                 List<PointEvaluationRes> tmp = getGoodPositionsToInsertGloballyByRealDistance(solution,client);
                 PointEvaluationRes best = tmp.get(0);
                 float origScore = getRouteOptimalSubPath(best.route,solution.nodesManager.carCapacity).distance;
-                best.route.insert(best.point,client);
-                res += best.score - origScore + s2 - s1;
+                float delta = best.score - origScore + s2 - s1;
+                if(delta<-epsilon){
+                    best.route.insert(best.point,client);
+                    res += delta;
+                }
+                else {
+                    route.insert(recoverPoint,client);
+                }
             }
         }
         System.out.println("Solution reduce:" + res);

@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="05064f55-2d66-42dc-90ba-d40a2e5d2d9b" name="Changes" comment="read data ameliorer">
+    <list default="true" id="05064f55-2d66-42dc-90ba-d40a2e5d2d9b" name="Changes" comment="Limit excessive losses from random diversification">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
@@ -139,7 +139,14 @@
       <option name="project" value="LOCAL" />
       <updated>1688808842863</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Limit excessive losses from random diversification">
+      <created>1688809752350</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1688809752350</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -163,7 +170,8 @@
     <MESSAGE value="global real dis optimization fix bug" />
     <MESSAGE value="add dataset" />
     <MESSAGE value="read data ameliorer" />
-    <option name="LAST_COMMIT_MESSAGE" value="read data ameliorer" />
+    <MESSAGE value="Limit excessive losses from random diversification" />
+    <option name="LAST_COMMIT_MESSAGE" value="Limit excessive losses from random diversification" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MDVRP_NeighbourhoodSearch$Main.ic" NAME="Main Coverage Results" MODIFIED="1688683664810" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

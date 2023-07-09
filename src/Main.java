@@ -69,20 +69,22 @@ public class Main {
         Solution solution = initialisation("src\\dataSet\\p16");
         solution = vnsLocally(solution,100,false);
         solution = borderlineInsertion(solution);
-        solution = vnsLocally(solution,100,false);
+        solution = vnsLocally(solution,100,true);
+        solution = vnsGlobally(solution);
+
 
         Solution bestSolution = new Solution(solution);
         float bestPoint = Algo.evaluateSolution(bestSolution);
-        for (int i=0;i<300;++i){
+        for (int i=0;i<100;++i){
             System.out.println("---step--->"+i);
-            solution = vnsLocally(solution,30,true);
+            solution = vnsLocally(solution,50,true);
             solution = vnsGlobally(solution);
             float tmpPoint = Algo.evaluateSolution(solution);
             if(tmpPoint<=bestPoint){
                 bestSolution = new Solution(solution);
                 bestPoint = tmpPoint;
             }
-            else if(tmpPoint - bestPoint > 50)
+            else if(tmpPoint - bestPoint > 100)
                 solution = new Solution(bestSolution);
         }
 

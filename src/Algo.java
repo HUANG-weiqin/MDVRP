@@ -114,7 +114,7 @@ public class Algo {
         for (ClientNode cur: clientNodes) {
             List<PointEvaluationRes> allPos = getAllPossibleDiversificationPos(route,cur);
             for (PointEvaluationRes pos:allPos) {
-                if(pos.score > limit  ||  getRandomInt(0,100) < 20)
+                if(pos.score > limit  ||  getRandomInt(0,100) < 2)
                     continue;
                 route.remove(cur);
                 route.insert(pos.point,(ClientNode) cur);

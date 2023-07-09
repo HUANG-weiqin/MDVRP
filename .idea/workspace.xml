@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="05064f55-2d66-42dc-90ba-d40a2e5d2d9b" name="Changes" comment="Limit excessive losses from random diversification">
+    <list default="true" id="05064f55-2d66-42dc-90ba-d40a2e5d2d9b" name="Changes" comment="Limit excessive losses from random diversification - fix bug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Algo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Algo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -146,7 +147,14 @@
       <option name="project" value="LOCAL" />
       <updated>1688809752350</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Limit excessive losses from random diversification - fix bug">
+      <created>1688810273803</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1688810273803</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -171,7 +179,8 @@
     <MESSAGE value="add dataset" />
     <MESSAGE value="read data ameliorer" />
     <MESSAGE value="Limit excessive losses from random diversification" />
-    <option name="LAST_COMMIT_MESSAGE" value="Limit excessive losses from random diversification" />
+    <MESSAGE value="Limit excessive losses from random diversification - fix bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="Limit excessive losses from random diversification - fix bug" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MDVRP_NeighbourhoodSearch$Main.ic" NAME="Main Coverage Results" MODIFIED="1688683664810" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

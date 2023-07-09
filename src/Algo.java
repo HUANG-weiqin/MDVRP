@@ -1,16 +1,14 @@
 import shortestPath.Graph;
 import shortestPath.Path;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @FunctionalInterface
 interface evalFunc {
     float eval(Point a, Point b,Point c);
 }
 public class Algo {
-    public static float borderlineFactor = 0.7f;
+    public static float borderlineFactor = 0.3f;
     public static float epsilon = 0.00001f;
 
     public static int getRandomInt(int lower,int upper){
@@ -279,6 +277,31 @@ public class Algo {
 
     public static void solutionToLocalOptimalByRealScore(Solution solution){
         while (solutionMoveOneStepToLocalOptimalByRealDistance(solution)<0);
+    }
+
+    public static Map<DepotNode,List<Route>> parseSolution(Solution solution){
+        Map<DepotNode,List<Route>> res = new Hashtable<>();
+
+        for(DepotNode depot:solution.Routs.keySet()){
+            res.put(depot,new ArrayList<>());
+            Route bigRoute = solution.Routs.get(depot);
+
+            List<ClientNode> clients= bigRoute.getClientsByOrder();
+            Path path = getRouteOptimalSubPath(bigRoute,solution.nodesManager.carCapacity);
+            int prev = -1;
+            for (int i:path.path){
+                if(prev>=0){
+                    Route newSubRout = new Route(depot);
+                    List<ClientNode> subPath= clients.subList(prev,i);
+                    for(ClientNode c:subPath){
+                        newSubRout.insert(newSubRout.getPrev(depot),c);
+                    }
+                    res.get(depot).add(newSubRout);
+                }
+                prev = i;
+            }
+        }
+        return res;
     }
 
 }

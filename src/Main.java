@@ -1,4 +1,8 @@
-import java.util.Collections;
+import shortestPath.Path;
+import visualisation.PointPlotter;
+
+import java.util.List;
+import java.util.Map;
 
 public class Main {
 
@@ -65,22 +69,42 @@ public class Main {
     }
     public static void termination(){}
 
+    public static void visulaliserSolution(Solution solution){
+        Map<DepotNode, List<Route>> res = Algo.parseSolution(solution);
+        PointPlotter plotter = new PointPlotter(1000,800);
+        for (DepotNode depot:res.keySet()) {
+
+            for (Route route:res.get(depot)){
+                plotter.addPointsToSet(depot.id,depot.x,depot.y);
+                for (ClientNode client:route.getClientsByOrder()){
+                    plotter.addPointsToSet(depot.id,client.x,client.y);
+                }
+                plotter.addPointsToSet(depot.id,depot.x,depot.y);
+            }
+        }
+        for (DepotNode depot:res.keySet()) {
+            plotter.addIndependentPoints(depot.x,depot.y);
+        }
+
+        plotter.show();
+    }
+
     public static void main(String[] args) {
-        Solution solution = initialisation("src\\dataSet\\p16");
+        Solution solution = initialisation("src\\dataSet\\p01");
         solution = vnsLocally(solution,100,false);
         solution = borderlineInsertion(solution);
-        solution = vnsLocally(solution,100,true);
+        solution = vnsLocally(solution,10,true);
         solution = vnsGlobally(solution);
-
 
         Solution bestSolution = new Solution(solution);
         float bestPoint = Algo.evaluateSolution(bestSolution);
-        for (int i=0;i<100;++i){
+        for (int i=0;i<5000;++i){
             System.out.println("---step--->"+i);
-            solution = vnsLocally(solution,50,true);
+            solution = vnsLocally(solution,10,true);
             solution = vnsGlobally(solution);
+
             float tmpPoint = Algo.evaluateSolution(solution);
-            if(tmpPoint<=bestPoint){
+            if(tmpPoint<bestPoint){
                 bestSolution = new Solution(solution);
                 bestPoint = tmpPoint;
             }
@@ -89,5 +113,7 @@ public class Main {
         }
 
         System.out.println("BEST RESULT ------------> "+ bestPoint);
+        visulaliserSolution(bestSolution);
     }
+
 }

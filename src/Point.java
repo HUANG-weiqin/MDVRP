@@ -14,4 +14,9 @@ public class Point {
         float yy = a.y-b.y;
         return  (float)Math.sqrt(xx*xx+yy*yy);
     }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }

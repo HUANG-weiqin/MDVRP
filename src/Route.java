@@ -26,9 +26,6 @@ public class Route {
     }
 
     public void insert(Point cur,ClientNode newcomer){
-        if(nexts.containsKey(newcomer)){
-            remove(newcomer);
-        }
         Point next = nexts.get(cur);
         nexts.put(newcomer,next);
         prevs.put(next,newcomer);
@@ -71,6 +68,17 @@ public class Route {
         return res;
     };
 
+    public List<Point> getPointsByOrder(){
+        List<Point> res = new ArrayList<>(nexts.size());
+        res.add(depot);
+        Point cur = getNext(depot);
+        while (cur != depot) {
+            res.add((ClientNode) cur);
+            cur = getNext(cur);
+        }
+        return res;
+    };
+
     public int size(){
         return nexts.size();
     }
@@ -100,6 +108,19 @@ public class Route {
         return res;
     }
 
+    @Override
+    public int hashCode() {
+        int res = 0;
+        Point cur = depot;
+        int idx = 1;
+        do {
+            res += idx*cur.hashCode();
+            cur = getNext(cur);
+            idx+=1;
+        } while (cur != depot);
+
+        return (int)(res*(distance+1));
+    }
 
     @Override
     public String toString() {

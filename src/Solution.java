@@ -53,4 +53,17 @@ public class Solution {
         return res;
     }
 
+    public Route getRoute(ClientNode client){
+        for (Route route:Routs.values()) {
+            if(route.nexts.containsKey(client)){
+                return route;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public int hashCode() {
+        return Routs.hashCode();
+    }
 }

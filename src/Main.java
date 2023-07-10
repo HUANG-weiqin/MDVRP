@@ -1,6 +1,9 @@
 import shortestPath.Path;
 import visualisation.PointPlotter;
+import vnbfs_optimizer.VnbfsOpimizer;
+import vnbfs_optimizer.model.Resolution;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -76,7 +79,7 @@ public class Main {
 
             for (Route route:res.get(depot)){
                 plotter.addPointsToSet(depot.id,depot.x,depot.y);
-                for (ClientNode client:route.getClientsByOrder()){
+                for (Point client:route.getClientsByOrder()){
                     plotter.addPointsToSet(depot.id,client.x,client.y);
                 }
                 plotter.addPointsToSet(depot.id,depot.x,depot.y);
@@ -89,8 +92,7 @@ public class Main {
         plotter.show();
     }
 
-    public static void main(String[] args) {
-        Solution solution = initialisation("src\\dataSet\\p01");
+    public static Solution vnsFast(Solution solution) {
         solution = vnsLocally(solution,100,false);
         solution = borderlineInsertion(solution);
         solution = vnsLocally(solution,10,true);
@@ -98,7 +100,7 @@ public class Main {
 
         Solution bestSolution = new Solution(solution);
         float bestPoint = Algo.evaluateSolution(bestSolution);
-        for (int i=0;i<5000;++i){
+        for (int i=0;i<20;++i){
             System.out.println("---step--->"+i);
             solution = vnsLocally(solution,10,true);
             solution = vnsGlobally(solution);
@@ -113,7 +115,21 @@ public class Main {
         }
 
         System.out.println("BEST RESULT ------------> "+ bestPoint);
-        visulaliserSolution(bestSolution);
+        return bestSolution;
     }
 
+    public static void main(String[] args) {
+        Solution solution = initialisation("src\\dataSet\\p16");
+        solution = vnsFast(solution);
+        VrpResolution vrpResolution= new VrpResolution(solution);
+        VnbfsOpimizer opimizer = new VnbfsOpimizer(30,1);
+        List<Resolution> resolutions = opimizer.toApproximateOptimalSolution(vrpResolution);
+    }
+
+    public static void maintest(String[] args) {
+        Solution solution = initialisation("src\\dataSet\\p01");
+        solution = vnsLocally(solution,10,false);
+        solution = borderlineInsertion(solution);
+
+    }
 }

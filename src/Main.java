@@ -1,11 +1,8 @@
-import shortestPath.Path;
 import visualisation.PointPlotter;
 import vnbfs_optimizer.VnbfsOpimizer;
 import vnbfs_optimizer.model.Resolution;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Main {
 
@@ -19,17 +16,17 @@ public class Main {
         return solution;
     }
 
-    public static void diversifyLocal(Route route,float limit){
+    public static void diversifyLocal(Route route, double limit){
         Algo.DiversificationToLimit(route,limit,1f,1.3f);
     }
 
-    public static float percent(float start,float fin,float maxStep,float step,boolean inverse){
+    public static double percent(double start,double fin,double maxStep,double step,boolean inverse){
         if(inverse)
            return  start + fin  - fin*step/maxStep;
         return start + fin*step/maxStep;
     }
 
-    public static float evaluator(Solution solution,boolean byRealDistance){
+    public static double evaluator(Solution solution, boolean byRealDistance){
         if(byRealDistance)
             return Algo.evaluateSolution(solution);
         else
@@ -38,7 +35,7 @@ public class Main {
 
     public static Solution vnsLocally(Solution solution,int maxstep,boolean byRealDistance){
 
-        float bestDist= evaluator(solution,byRealDistance);
+        double bestDist= evaluator(solution,byRealDistance);
         Solution bestSol = solution;;
         for(int i=0;i<maxstep;++i) {
             for (Route route:solution.Routs.values()) {
@@ -49,7 +46,7 @@ public class Main {
                 while (Algo.RouteMoveOneStepToLocalOptimal(route));
             };
 
-            float dis = evaluator(solution,byRealDistance);
+            double dis = evaluator(solution,byRealDistance);
             if( dis < bestDist){
                 bestDist = dis;
                 bestSol = new Solution(solution);
@@ -67,7 +64,7 @@ public class Main {
     }
 
     public static Solution vnsGlobally( Solution solution ){
-        float reduce = Algo.solutionMoveOneStepToLocalOptimalByRealDistance(solution);
+        double reduce = Algo.solutionMoveOneStepToLocalOptimalByRealDistance(solution);
         return solution;
     }
     public static void termination(){}
@@ -99,13 +96,13 @@ public class Main {
         solution = vnsGlobally(solution);
 
         Solution bestSolution = new Solution(solution);
-        float bestPoint = Algo.evaluateSolution(bestSolution);
-        for (int i=0;i<20;++i){
+        double bestPoint = Algo.evaluateSolution(bestSolution);
+        for (int i=0;i<1;++i){
             System.out.println("---step--->"+i);
             solution = vnsLocally(solution,10,true);
             solution = vnsGlobally(solution);
 
-            float tmpPoint = Algo.evaluateSolution(solution);
+            double tmpPoint = Algo.evaluateSolution(solution);
             if(tmpPoint<bestPoint){
                 bestSolution = new Solution(solution);
                 bestPoint = tmpPoint;
@@ -119,11 +116,18 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        Solution solution = initialisation("src\\dataSet\\p16");
+        Solution solution = initialisation("src\\dataSet\\p17");
         solution = vnsFast(solution);
+        /*
         VrpResolution vrpResolution= new VrpResolution(solution);
-        VnbfsOpimizer opimizer = new VnbfsOpimizer(30,1);
+        VnbfsOpimizer opimizer = new VnbfsOpimizer(100,1,100);
         List<Resolution> resolutions = opimizer.toApproximateOptimalSolution(vrpResolution);
+        VrpResolution res = (VrpResolution) Collections.min(resolutions);
+        visulaliserSolution(res.solution);
+        Set<Resolution> st = new HashSet<>(resolutions);
+        System.out.println(st.size());
+        System.out.println(Algo.evaluateSolution(res.solution));
+        */
     }
 
     public static void maintest(String[] args) {

@@ -6,14 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VosinOptimizer extends Optimizer{
-    private int vType;
-    public VosinOptimizer(int vType) {
-        this.vType = vType;
-    }
 
     @Override
     public List<Resolution> toApproximateOptimalSolution(Resolution init) {
-        List<Resolution> solutions = init.getAllVoisin(vType);
+        List<Resolution> solutions = (List<Resolution>) init.getAllVoisinNonVisited();
         List<Resolution> res = new ArrayList<>();
         for (Resolution s:solutions) {
             if(s.betterThan(init)){
@@ -25,6 +21,6 @@ public class VosinOptimizer extends Optimizer{
 
     @Override
     public double getComplexity(int size) {
-        return size * vType + size + 1;
+        return size + size + 1;
     }
 }

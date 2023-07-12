@@ -3,7 +3,8 @@ package vnbfs_optimizer.model;
 import java.util.List;
 
 public interface Voisinable {
-    <T> List<T> getAllVoisin(int type);
+    List<? extends  Voisinable> getAllVoisin();
+    List<? extends  Voisinable> getRandomVoisin(int nb);
 
     int distance(Voisinable other);
 }

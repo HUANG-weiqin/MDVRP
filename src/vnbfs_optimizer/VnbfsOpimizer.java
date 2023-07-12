@@ -4,6 +4,7 @@ import vnbfs_optimizer.contaniner.DifferentiableContainer;
 import vnbfs_optimizer.model.Resolution;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,21 +12,21 @@ public class VnbfsOpimizer extends Optimizer {
 
     private int maxNbVoisinToExplorer;
 
-    private ArrayList<VosinOptimizer> vosinOptimizers;
+    private VosinOptimizer vosinOptimizer;
+    private OptDiversificationOptimizer optDiversificationOptimizer;
 
-    public VnbfsOpimizer(int maxNbVoisinToExplorer, int maxVoisinType) {
+    private int targetLocalOptmalNb;
+
+    public VnbfsOpimizer(int maxNbVoisinToExplorer, int maxVoisinType ,int target) {
         this.maxNbVoisinToExplorer = maxNbVoisinToExplorer;
-        vosinOptimizers = new ArrayList<>(maxVoisinType);
-        for (int i=1;i<=maxVoisinType;++i){
-            vosinOptimizers.add(new VosinOptimizer(i));
-        }
+        this.targetLocalOptmalNb = target;
+        vosinOptimizer = new VosinOptimizer();
+        optDiversificationOptimizer = new OptDiversificationOptimizer(10,50);
     }
 
     private List<Resolution> getAllImproveVosin(Resolution solution){
         List<Resolution> returnSol = new LinkedList<>();
-        for (VosinOptimizer optimizer:vosinOptimizers) {
-            returnSol.addAll(optimizer.toApproximateOptimalSolution(solution));
-        }
+        returnSol.addAll(vosinOptimizer.toApproximateOptimalSolution(solution));
         return returnSol;
     }
 
@@ -34,12 +35,17 @@ public class VnbfsOpimizer extends Optimizer {
         DifferentiableContainer<Resolution> solutionHeap = new DifferentiableContainer<>();
         DifferentiableContainer<Resolution> res = new DifferentiableContainer<>();
         solutionHeap.add(init);
-        do {
+        while (true){
             Resolution cur = solutionHeap.pop();
+            if(cur.getVisited())continue;
+            cur.setVisited();
             System.out.println("score:" + cur.evaluate() + " solutionHeap:"+solutionHeap.size() + " res:"+res.size());
             List<Resolution> sols = getAllImproveVosin(cur);
 
-            if(sols.isEmpty()) res.add(cur);
+            if(sols.isEmpty()){
+                res.add(cur);
+                if(res.size()>=targetLocalOptmalNb) return res.toArrayList();
+            }
             else {
                 for (Resolution s: sols) {
                     if(solutionHeap.size()< maxNbVoisinToExplorer)
@@ -50,9 +56,12 @@ public class VnbfsOpimizer extends Optimizer {
                     }
                 }
             }
-        }while (solutionHeap.size()>0);
 
-        return res.toArrayList();
+            if(solutionHeap.size()==0){
+                solutionHeap.addAll(optDiversificationOptimizer.toApproximateOptimalSolution(res.top()));
+            }
+        }
+
     }
 
     @Override

@@ -1,5 +1,3 @@
-import javafx.util.Pair;
-
 import java.util.*;
 
 public class Solution {
@@ -30,8 +28,8 @@ public class Solution {
         }
     }
 
-    public float evaluatDistance(){
-        float res = 0;
+    public double evaluatDistance(){
+        double res = 0;
         for (Route rout: Routs.values()) {
             res += rout.distance;
         }
@@ -53,9 +51,9 @@ public class Solution {
         return res;
     }
 
-    public Route getRoute(ClientNode client){
+    public Route getRoute(Point point){
         for (Route route:Routs.values()) {
-            if(route.nexts.containsKey(client)){
+            if(route.nexts.containsKey(point)){
                 return route;
             }
         }
@@ -65,5 +63,26 @@ public class Solution {
     @Override
     public int hashCode() {
         return Routs.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Solution){
+            Solution other = (Solution) obj;
+            for (DepotNode depot: Routs.keySet()) {
+                if(!Routs.get(depot).equals(other.Routs.get(depot)))
+                    return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public double evaluate(){
+        double res = 0;
+        for (Route route:Routs.values()) {
+            res += route.evaluate(nodesManager.carCapacity);
+        }
+        return res;
     }
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Path implements Comparable<Path>{
     public List<Integer> path;
-    public float distance;
+    public double distance;
 
     Path(int endPoint){
         this.path = new ArrayList<>();
@@ -19,14 +19,14 @@ public class Path implements Comparable<Path>{
 
     @Override
     public int compareTo(Path o) {
-        return Float.compare(distance,o.distance);
+        return Double.compare(distance,o.distance);
     }
 
     public int getEndPoint(){
         return path.get(path.size()-1);
     }
 
-    public void addNextPoint(int next,float cost){
+    public void addNextPoint(int next,double cost){
         path.add(next);
         distance+=cost;
     }

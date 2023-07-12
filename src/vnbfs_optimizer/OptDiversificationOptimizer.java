@@ -7,39 +7,33 @@ import java.util.Collections;
 import java.util.List;
 
 public class OptDiversificationOptimizer extends Optimizer {
-    private double augmentCostLimit;
-    private int nbToGenerate;
-    private int deep;
 
-    public OptDiversificationOptimizer(double augmentCostLimit, int nbToGenerate,int deep) {
-        this.augmentCostLimit = augmentCostLimit;
+    private int nbToGenerate;
+    private double cost;
+
+    public OptDiversificationOptimizer(int nbToGenerate,double cost) {
         this.nbToGenerate = nbToGenerate;
-        this.deep = deep;
+        this.cost = cost;
     }
 
     @Override
     public List<Resolution> toApproximateOptimalSolution(Resolution init) {
-        return exec(init,augmentCostLimit,nbToGenerate,deep);
-    }
-
-    public List<Resolution> exec(Resolution init, double aug, int nb, int deep){
-        List<Resolution> res = new ArrayList<>();
-        if(deep==0)return res;
-        List<Resolution> voisin = init.getAllVoisin(1);
-        Collections.sort(voisin);
-        for (Resolution v:voisin) {
-            double score = -v.howMuchBetterThan(init);
-            if(score <= 0) continue;
-            if(score > augmentCostLimit) break;
-            List<Resolution> tmp = exec(v, augmentCostLimit - score, nbToGenerate-res.size(), deep-1);
-            if(tmp.size()==0)
-                res.add(v);
+        List<Resolution> res = new ArrayList<>(nbToGenerate);
+        Resolution v = (Resolution) init.getRandomVoisin(1).get(0);
+        Resolution cur = v;
+        while (true){
+            cur = (Resolution) cur.getRandomVoisin(1).get(0);
+            double score = cur.evaluate();
+            if(score<=cost){
+                res.add(cur);
+                if(res.size()>=nbToGenerate)break;
+            }
             else
-                res.addAll(tmp);
-            if(res.size()>=nbToGenerate) break;
+                cur = v;
         }
         return res;
     }
+
 
     @Override
     public double getComplexity(int size) {

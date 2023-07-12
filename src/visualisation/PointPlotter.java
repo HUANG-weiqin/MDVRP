@@ -1,9 +1,6 @@
 package visualisation;
 
-import javafx.util.Pair;
-
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.*;
@@ -14,16 +11,16 @@ import javax.swing.JPanel;
 public class PointPlotter extends JPanel {
 
     class Point{
-        float x;
-        float y;
-        Point (float x,float y) {
+        double x;
+        double y;
+        Point (double x, double y) {
             this.x = x;
             this.y = y;
         }
     }
 
     class Window{
-        float minx=Float.MAX_VALUE,miny=Float.MAX_VALUE,maxx=Float.MIN_VALUE,maxy=Float.MIN_VALUE;
+        double minx=Double.MAX_VALUE,miny=Double.MAX_VALUE,maxx=Double.MIN_VALUE,maxy=Double.MIN_VALUE;
         int marginw=10;
         int marginh=10;
         public void convertPoints(List<Point> ps){
@@ -84,13 +81,13 @@ public class PointPlotter extends JPanel {
         }
     }
 
-    public void addPointsToSet(int key,float x,float y){
+    public void addPointsToSet(int key, double x, double y){
         if(!pointSet.containsKey(key))
             pointSet.put(key,new ArrayList<>());
         pointSet.get(key).add(new Point(x,y));
     }
 
-    public void addIndependentPoints(float x,float y){
+    public void addIndependentPoints(double x, double y){
         independentPoints.add(new Point(x,y));
     }
 

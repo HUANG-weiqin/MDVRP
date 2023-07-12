@@ -4,35 +4,35 @@ package shortestPath;
 import java.util.*;
 
 public class Graph {
-    float[][] matrix;
+    double[][] matrix;
     int nbNode;
 
     Map<Integer,Path> shortesPath = new Hashtable<>();
 
     public Graph(int nbNode){
-        matrix = new float[nbNode][nbNode];
+        matrix = new double[nbNode][nbNode];
         this.nbNode = nbNode;
 
         for(int i=0;i<nbNode;++i){
             for (int j=0;j<nbNode;++j){
-                matrix[i][j] = Float.MIN_VALUE;
+                matrix[i][j] = Double.MIN_VALUE;
             }
         }
     }
-    public float getEdgeWeight(int from, int to){
+    public double getEdgeWeight(int from, int to){
         if(from<0)
             return 0;
         return matrix[from][to];
     }
 
-    public void setEdge(int from, int to, float weight){
+    public void setEdge(int from, int to, double weight){
         matrix[from][to] = weight;
     }
 
     public ArrayList<Integer> getPrevs(int j){
         ArrayList<Integer> res = new ArrayList<>();
         for (int i=0;i<nbNode;++i){
-            if(matrix[i][j] != Float.MIN_VALUE){
+            if(matrix[i][j] != Double.MIN_VALUE){
                 res.add(i);
             }
         }

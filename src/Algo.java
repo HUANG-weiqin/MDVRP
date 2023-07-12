@@ -5,11 +5,11 @@ import java.util.*;
 
 @FunctionalInterface
 interface evalFunc {
-    float eval(Point a, Point b,Point c);
+    double eval(Point a, Point b, Point c);
 }
 public class Algo {
-    public static float borderlineFactor = 0.3f;
-    public static float epsilon = 0.00001f;
+    public static double borderlineFactor = 0.3;
+    public static double epsilon = 0.00001;
 
     public static int getRandomInt(int lower,int upper){
         return lower +  (int) (Math.random() * upper);
@@ -20,7 +20,7 @@ public class Algo {
         Point cur = route.depot;
         Point next = route.getNext(cur);
         do {
-            float dis = evaluator.eval(client,cur,next);
+            double dis = evaluator.eval(client,cur,next);
             res.add(new PointEvaluationRes(route,cur,dis));
             cur = next;
             next = route.getNext(next);
@@ -31,24 +31,24 @@ public class Algo {
     }
 
 
-    public static List<PointEvaluationRes> getAllPossiblePosOfInsertionToRoute(Route route, ClientNode client, float shift){
+    public static List<PointEvaluationRes> getAllPossiblePosOfInsertionToRoute(Route route, ClientNode client, double shift){
         return RoutTraveler(route,client,(a,b,c)-> {return Route.insertionDistance(a,b,c) + shift; });
     }
 
     public static boolean RouteMoveOneStepToLocalOptimal(Route route){
 
         for (ClientNode cur: route.getClientsByOrder()) {
-            float removeScore = Route.insertionDistance(cur,route.getPrev(cur),route.getNext(cur));
+            double removeScore = Route.insertionDistance(cur,route.getPrev(cur),route.getNext(cur));
             Route tmp = new Route(route);
             tmp.remove(cur);
-            PointEvaluationRes res =  RoutTraveler(tmp,(ClientNode) cur,
+            PointEvaluationRes res =  RoutTraveler(tmp, cur,
                     (toInsert,a,b)->{
                         return Route.insertionDistance(toInsert,a,b) - removeScore;
                     }
             ).get(0);
             if(res.score < -epsilon){
                 route.remove(cur);
-                route.insert(res.point,(ClientNode) cur);
+                route.insert(res.point, cur);
                 return true;
             }
         }
@@ -65,11 +65,11 @@ public class Algo {
             return depots.get(0);
 
         depots.sort((a,b)->{
-            return Float.compare(Point.distance(client,a), Point.distance(client,b));
+            return Double.compare(Point.distance(client,a), Point.distance(client,b));
         });
         DepotNode first = depots.get(0);
         DepotNode second = depots.get(1);
-        float f = Point.distance(first,client)/Point.distance(first,second);
+        double f = Point.distance(first,client)/Point.distance(first,second);
         if(f <= borderlineFactor)
             return first;
 
@@ -80,7 +80,7 @@ public class Algo {
         for (ClientNode bclient:solution.borderlineClientsToInsert) {
             Route bestRout = null;
             Point bestPoint = null;
-            float bestDis = Float.MAX_VALUE;
+            double bestDis = Double.MAX_VALUE;
             for (Route route:solution.Routs.values()) {
                 PointEvaluationRes  res = getAllPossiblePosOfInsertionToRoute(route,bclient,0).get(0);
                 if(bestDis > res.score){
@@ -97,17 +97,17 @@ public class Algo {
     }
 
     public static List<PointEvaluationRes> getAllPossibleDiversificationPos(Route route,ClientNode clientNode){
-        float removeScore = Route.insertionDistance(clientNode,route.getPrev(clientNode),route.getNext(clientNode));
+        double removeScore = Route.insertionDistance(clientNode,route.getPrev(clientNode),route.getNext(clientNode));
         return RoutTraveler(route,clientNode,
                 (toInsert,a,b)->{
-                    float t = Route.insertionDistance(toInsert,a,b) - removeScore;
+                    double t = Route.insertionDistance(toInsert,a,b) - removeScore;
                     if(t<=epsilon)
-                        return Float.MAX_VALUE;
+                        return Double.MAX_VALUE;
                     return t;
                 });
     }
 
-    public static float RouteMoveOneStepToDiversification(Route route,List<ClientNode> clientNodes,float limit){
+    public static double RouteMoveOneStepToDiversification(Route route, List<ClientNode> clientNodes, double limit){
 
         for (ClientNode cur: clientNodes) {
             List<PointEvaluationRes> allPos = getAllPossibleDiversificationPos(route,cur);
@@ -115,12 +115,12 @@ public class Algo {
                 if(pos.score > limit  ||  getRandomInt(0,100) < 2)
                     continue;
                 route.remove(cur);
-                route.insert(pos.point,(ClientNode) cur);
+                route.insert(pos.point,cur);
                 clientNodes.remove(cur);
                 return pos.score;
             }
         }
-        return Float.MAX_VALUE;
+        return Double.MAX_VALUE;
     }
 
     public static int RoutDiff(Route r1,Route r2){
@@ -143,12 +143,12 @@ public class Algo {
         return res;
     }
 
-    public static void DiversificationToLimit(Route route,float limit,float step,float factor){
+    public static void DiversificationToLimit(Route route, double limit, double step, double factor){
         List<ClientNode> clientNodes = route.getClientsByOrder();
         Collections.shuffle(clientNodes);
         Route ori = new  Route(route);
         while (limit - step >= step){
-            float cost = RouteMoveOneStepToDiversification(route,clientNodes,step);
+            double cost = RouteMoveOneStepToDiversification(route,clientNodes,step);
             if(cost>limit){
                 step*=factor;
                 continue;
@@ -181,11 +181,15 @@ public class Algo {
         return costGraph.getShortestPath(depotNodeIdx);
     }
 
-    public static float evaluateSolution(Solution solution){
-        float res = 0;
+    public static double evaluateRoute(Route route,List<Integer> carCapacity){
+        Path path = getRouteOptimalSubPath(route,carCapacity);
+        return path.distance;
+    }
+
+    public static double evaluateSolution(Solution solution){
+        double res = 0;
         for (Route route:solution.Routs.values()) {
-            Path path = getRouteOptimalSubPath(route,solution.nodesManager.carCapacity);
-            res += path.distance;
+            res += evaluateRoute(route,solution.nodesManager.carCapacity);
         }
         return res;
     }
@@ -200,11 +204,11 @@ public class Algo {
         return routes;
     }
 
-    public static List<PointEvaluationRes> getAllPossiblePosOfInsertionToRouteByRealDistance(Route route,ClientNode client,List<Integer> carCapacities,float shift){
+    public static List<PointEvaluationRes> getAllPossiblePosOfInsertionToRouteByRealDistance(Route route,ClientNode client,List<Integer> carCapacities,double shift){
         List<PointEvaluationRes> res = new ArrayList<>();
         for (Route r:getAllPossibleRouteAfterInsertion(route,client)){
             Path newer = getRouteOptimalSubPath(r,carCapacities);
-            float realDis =  newer.distance;
+            double realDis =  newer.distance;
             PointEvaluationRes peval = new PointEvaluationRes(route,r.getPrev(client),realDis + shift);
             res.add(peval);
         }
@@ -231,11 +235,11 @@ public class Algo {
         return res;
     }
 
-    public static float solutionMoveOneStepToLocalOptimal(Solution solution){
-        float res = 0;
+    public static double solutionMoveOneStepToLocalOptimal(Solution solution){
+        double res = 0;
         for(Route route:solution.Routs.values()) {
             for (ClientNode client:route.getClientsByOrder()) {
-                float removeScore = Route.insertionDistance(client,route.getPrev(client),route.getNext(client));
+                double removeScore = Route.insertionDistance(client,route.getPrev(client),route.getNext(client));
                 route.remove(client);
                 List<PointEvaluationRes> tmp = getGoodPositionsToInsertGlobally(solution,client);
                 PointEvaluationRes best = tmp.get(0);
@@ -247,18 +251,18 @@ public class Algo {
         return res;
     }
 
-    public static float solutionMoveOneStepToLocalOptimalByRealDistance(Solution solution){
-        float res = 0;
+    public static double solutionMoveOneStepToLocalOptimalByRealDistance(Solution solution){
+        double res = 0;
         for(Route route:solution.Routs.values()) {
             for (ClientNode client:route.getClientsByOrder()) {
-                float s1 = getRouteOptimalSubPath(route,solution.nodesManager.carCapacity).distance;
+                double s1 = getRouteOptimalSubPath(route,solution.nodesManager.carCapacity).distance;
                 Point recoverPoint = route.getPrev(client);
                 route.remove(client);
-                float s2 = getRouteOptimalSubPath(route,solution.nodesManager.carCapacity).distance;
+                double s2 = getRouteOptimalSubPath(route,solution.nodesManager.carCapacity).distance;
                 List<PointEvaluationRes> tmp = getGoodPositionsToInsertGloballyByRealDistance(solution,client);
                 PointEvaluationRes best = tmp.get(0);
-                float origScore = getRouteOptimalSubPath(best.route,solution.nodesManager.carCapacity).distance;
-                float delta = best.score - origScore + s2 - s1;
+                double origScore = getRouteOptimalSubPath(best.route,solution.nodesManager.carCapacity).distance;
+                double delta = best.score - origScore + s2 - s1;
                 if(delta<-epsilon){
                     best.route.insert(best.point,client);
                     res += delta;

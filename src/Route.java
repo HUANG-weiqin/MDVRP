@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 public class Route {
+    public static ResolutionCache<Integer,Double> routeScoresCache = new ResolutionCache<>(1000000);
     public DepotNode depot;
-    public float distance = 0;
+    public double distance = 0;
     public Map<Point,Point> nexts;
     public Map<Point,Point> prevs;
 
@@ -46,7 +47,7 @@ public class Route {
         distance -= insertionDistance(cur,prev,next);
     }
 
-    public static float insertionDistance(Point newcomer,Point cur,Point next){
+    public static double insertionDistance(Point newcomer,Point cur,Point next){
         return Point.distance(cur,newcomer) + Point.distance(newcomer,next) - Point.distance(cur,next);
     }
 
@@ -83,11 +84,11 @@ public class Route {
         return nexts.size();
     }
 
-    public float getSubCircleDistance(ClientNode from,ClientNode to){
+    public double getSubCircleDistance(ClientNode from,ClientNode to){
         if(from == to){
             return 2*Point.distance(from,depot);
         }
-        float res = Point.distance(from,depot) + Point.distance(to,depot);
+        double res = Point.distance(from,depot) + Point.distance(to,depot);
         Point cur = from;
         Point next = getNext(from);
         while (cur!=to){
@@ -110,24 +111,28 @@ public class Route {
 
     @Override
     public int hashCode() {
-        int res = 0;
-        Point cur = depot;
-        int idx = 1;
-        do {
-            res += idx*cur.hashCode();
-            cur = getNext(cur);
-            idx+=1;
-        } while (cur != depot);
-
-        return (int)(res*(distance+1));
+        int dis = (int)(distance);
+        return (dis*dis*10000 * nexts.size() * nexts.hashCode());
     }
 
     @Override
-    public String toString() {
-        String res = "";
-        res += "Route-Depot: "+ depot.id + '\n';
-        res += "Route-Size: "+ (nexts.size() - 1) + '\n';
-        res += "Route-Distance: "+ distance + '\n';
-        return res ;
+    public boolean equals(Object obj) {
+        if(obj instanceof Route){
+            Route other = (Route) obj;
+            boolean a =  nexts.equals(other.nexts);
+            if(a)
+                return true;
+            return a;
+        }
+        return false;
+    }
+
+    public double evaluate(List<Integer> cars){
+        int hc = hashCode();
+        if(routeScoresCache.containsKey(hc))
+            return routeScoresCache.get(hc);
+        double res = Algo.evaluateRoute(this,cars);
+        routeScoresCache.put(hc,res);
+        return res;
     }
 }

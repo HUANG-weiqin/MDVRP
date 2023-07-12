@@ -41,8 +41,8 @@ public class NodesManager {
             for(int i=0;i<nbClients;++i){
                 String[] numbers = readLine(scanner);
                 int id = Integer.parseInt(numbers[0]);
-                float x = Float.parseFloat(numbers[1]);
-                float y = Float.parseFloat(numbers[2]);
+                double x = Double.parseDouble(numbers[1]);
+                double y = Double.parseDouble(numbers[2]);
                 int demand = Integer.parseInt(numbers[4]);
                 clients.add(new ClientNode(id,x,y,demand));
             }
@@ -50,8 +50,8 @@ public class NodesManager {
             for(int i=0;i<nbDepots;++i){
                 String[] numbers = readLine(scanner);
                 int id = Integer.parseInt(numbers[0]);
-                float x = Float.parseFloat(numbers[1]);
-                float y = Float.parseFloat(numbers[2]);
+                double x = Double.parseDouble(numbers[1]);
+                double y = Double.parseDouble(numbers[2]);
                 depots.add(new DepotNode(id,x,y));
             }
 

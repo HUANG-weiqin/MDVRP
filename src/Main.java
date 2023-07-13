@@ -139,8 +139,8 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        String dataPath = "src\\dataSet\\p14";
-        String savePath = "src\\results\\p14";
+        String dataPath = "src\\dataSet\\p12";
+        String savePath = "src\\results\\p12";
         Solution solution = initialisation(dataPath);
         solution = vnsLocally(solution,100,false);
         solution = borderlineInsertion(solution);

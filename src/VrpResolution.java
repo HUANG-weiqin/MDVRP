@@ -9,6 +9,7 @@ public class VrpResolution extends Resolution {
     public Solution solution;
 
     private double score = 0;
+    public static int maxNbVoisin = 10000;
 
     public VrpResolution(Solution solution) {
         this.solution = solution;
@@ -16,10 +17,9 @@ public class VrpResolution extends Resolution {
     }
 
     private int hashCodeCache = 0;
-    private static int maxNbGenerate = 30000;
 
     public List<VrpResolution> voisin_insertion(){
-        List<VrpResolution> res = new ArrayList<>(maxNbGenerate);
+        List<VrpResolution> res = new ArrayList<>(maxNbVoisin);
         for (ClientNode client:solution.nodesManager.clients) {
             Solution newSol = new Solution(solution);
             Route rt = newSol.getRoute(client);
@@ -45,9 +45,14 @@ public class VrpResolution extends Resolution {
 
     @Override
     public double evaluate() {
+        score = solution.evaluate();
+        return score;
+    }
+
+    public double evalByCache(){
         boolean calculated = scores.containsKey(this.hashCode());
         if (!calculated){
-            score = Algo.evaluateSolution(solution);
+            score = solution.evaluate();
             scores.put(this.hashCode(),score);
         }
         else
@@ -83,7 +88,7 @@ public class VrpResolution extends Resolution {
 
     @Override
     public List<VrpResolution> getAllVoisinNonVisited() {
-        List<VrpResolution> res = new ArrayList<>(maxNbGenerate);
+        List<VrpResolution> res = new ArrayList<>(solution.nodesManager.clients.size());
         for (ClientNode client:solution.nodesManager.clients) {
             Solution newSol = new Solution(solution);
             Route rt = newSol.getRoute(client);
@@ -105,31 +110,34 @@ public class VrpResolution extends Resolution {
 
     @Override
     public List<VrpResolution> getAllVoisin() {
-        System.out.println("hashsetSize:" + scores.size());
+        //System.out.println("hashsetSize:" + scores.size());
         return voisin_insertion();
     }
 
     @Override
     public List<VrpResolution> getRandomVoisin(int nb) {
-        List<Point> rands = new ArrayList<>(solution.nodesManager.clients);
-        int idx = Algo.getRandomInt(0,solution.nodesManager.clients.size());
-        ClientNode clientNode = solution.nodesManager.clients.get(idx);
-        rands.remove(idx);
-
-        Solution solution1 = new Solution(solution);
-        Route route = solution1.getRoute(clientNode);
-        route.remove(clientNode);
-        rands.addAll(solution.nodesManager.depots);
-        Collections.shuffle(rands);
-
         List<VrpResolution> res = new ArrayList<>(nb);
-        for (Point p:rands) {
-            Route route1 = solution1.getRoute(p);
-            route1.insert(p,clientNode);
-            res.add(new VrpResolution(solution1));
-            if(res.size()>=nb)
-                return res;
-            solution1 = new Solution(solution);
+        for (int i=0;i<nb;++i)
+            res.add(new VrpResolution( new Solution(solution) ));
+        Collections.sort(res);
+        res = res.subList(0,nb);
+        for (VrpResolution v:res){
+            for (int i=0;i<Algo.getRandomInt(2,4);++i){
+                Algo.RandomdiversifyOneStepSolution(v.solution);
+            }
+        }
+        return res;
+    }
+
+    @Override
+    public List<? extends Voisinable> getDiversifiedVoisin(int nb) {
+        List<VrpResolution> res = new ArrayList<>(nb);
+        for(int i=0;i<nb;++i){
+            Solution newer = new Solution(solution);
+            for (Route route:newer.Routs.values()){
+                Algo.DiversificationToLimit(route, 10 + route.distance * 0.05 ,1,1.3);
+            }
+            res.add(new VrpResolution(newer));
         }
         return res;
     }

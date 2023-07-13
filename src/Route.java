@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Route {
-    public static ResolutionCache<Integer,Double> routeScoresCache = new ResolutionCache<>(1000000);
+    public static ResolutionCache<Route,Double> routeScoresCache = new ResolutionCache<>(200000);
     public DepotNode depot;
     public double distance = 0;
     public Map<Point,Point> nexts;
@@ -112,7 +112,7 @@ public class Route {
     @Override
     public int hashCode() {
         int dis = (int)(distance);
-        return (dis*dis*10000 * nexts.size() * nexts.hashCode());
+        return (dis*dis*10000 * 303147* nexts.size() * nexts.hashCode());
     }
 
     @Override
@@ -128,11 +128,11 @@ public class Route {
     }
 
     public double evaluate(List<Integer> cars){
-        int hc = hashCode();
-        if(routeScoresCache.containsKey(hc))
-            return routeScoresCache.get(hc);
+
+        if(routeScoresCache.containsKey(this))
+            return routeScoresCache.get(this);
         double res = Algo.evaluateRoute(this,cars);
-        routeScoresCache.put(hc,res);
+        routeScoresCache.put(this,res);
         return res;
     }
 }

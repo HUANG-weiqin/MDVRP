@@ -4,26 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="05064f55-2d66-42dc-90ba-d40a2e5d2d9b" name="Changes" comment="vns bfs added">
-      <change afterPath="$PROJECT_DIR$/src/ResolutionCache.java" afterDir="false" />
+    <list default="true" id="05064f55-2d66-42dc-90ba-d40a2e5d2d9b" name="Changes" comment="fix bug">
+      <change afterPath="$PROJECT_DIR$/src/VnsBfsOptimizer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/results/p01" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/results/p02" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/results/p03" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/results/p04" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/results/p05" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/results/p06" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/results/p07" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/results/p13" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/results/p14" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/results/p141" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/results/p15" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/results/p16" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/results/p17" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Algo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Algo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ClientNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ClientNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DepotNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DepotNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NodesManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NodesManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Point.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Point.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PointEvaluationRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PointEvaluationRes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Route.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Route.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Solution.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/VrpResolution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/VrpResolution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shortestPath/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shortestPath/Graph.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shortestPath/Path.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/shortestPath/Path.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/visualisation/PointPlotter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/visualisation/PointPlotter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/vnbfs_optimizer/OptDiversificationOptimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/vnbfs_optimizer/OptDiversificationOptimizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/vnbfs_optimizer/VnbfsOpimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/vnbfs_optimizer/VnbfsOpimizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/vnbfs_optimizer/VosinOptimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/vnbfs_optimizer/VosinOptimizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/vnbfs_optimizer/model/Resolution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/vnbfs_optimizer/model/Resolution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vnbfs_optimizer/AlgoTools.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vnbfs_optimizer/OptDiversificationOptimizer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vnbfs_optimizer/Optimizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/vnbfs_optimizer/Optimizer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vnbfs_optimizer/VnbfsOpimizer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vnbfs_optimizer/VosinOptimizer.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/vnbfs_optimizer/model/Voisinable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/vnbfs_optimizer/model/Voisinable.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -58,19 +63,22 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2S7wMSyQ9J6xq3RjzOA0SVXHzMn" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/idea_proj/MDVRP-NeighbourhoodSearch/src&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "E:/idea_proj/MDVRP-NeighbourhoodSearch/src"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\idea_proj\MDVRP-NeighbourhoodSearch\src" />
@@ -211,7 +219,14 @@
       <option name="project" value="LOCAL" />
       <updated>1688959209794</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="fix bug">
+      <created>1689194358276</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1689194358276</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -226,6 +241,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="load instance" />
     <MESSAGE value="route manager" />
     <MESSAGE value="optimisation 1version" />
@@ -240,18 +256,10 @@
     <MESSAGE value="ameliorer" />
     <MESSAGE value="visualisation" />
     <MESSAGE value="vns bfs added" />
-    <option name="LAST_COMMIT_MESSAGE" value="vns bfs added" />
+    <MESSAGE value="fix bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix bug" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Route.java</url>
-          <line>132</line>
-          <option name="timeStamp" value="31" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="java.util.Hashtable$Entry" memberName="value" />

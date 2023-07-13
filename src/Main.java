@@ -1,5 +1,4 @@
 import visualisation.PointPlotter;
-import vnbfs_optimizer.VnbfsOpimizer;
 import vnbfs_optimizer.model.Resolution;
 
 import java.util.*;
@@ -89,16 +88,31 @@ public class Main {
         plotter.show();
     }
 
-    public static Solution vnsFast(Solution solution) {
-        solution = vnsLocally(solution,100,false);
-        solution = borderlineInsertion(solution);
+    public static void save(Solution solution,String path){
+        Map<DepotNode, List<Route>> sols = Algo.parseSolution(solution);
+        StringBuilder res = new StringBuilder();
+        res.append(solution.evaluate());
+        res.append('\n');
+        for (DepotNode depot:sols.keySet()) {
+            for (Route route:sols.get(depot)){
+                res.append(depot.id);
+                for (ClientNode client:route.getClientsByOrder()){
+                    res.append(" ");
+                    res.append(client.id);
+                }
+                res.append('\n');
+            }
+        }
+        Algo.saveString(res.toString(),path);
+    }
+
+    public static Solution vnsFast(Solution solution,int iteration) {
         solution = vnsLocally(solution,10,true);
         solution = vnsGlobally(solution);
-
         Solution bestSolution = new Solution(solution);
         double bestPoint = Algo.evaluateSolution(bestSolution);
-        for (int i=0;i<1;++i){
-            System.out.println("---step--->"+i);
+        for (int i=0;i<iteration;++i){
+            System.out.println("---Vsn Dfs step--->"+i);
             solution = vnsLocally(solution,10,true);
             solution = vnsGlobally(solution);
 
@@ -110,30 +124,45 @@ public class Main {
             else if(tmpPoint - bestPoint > 100)
                 solution = new Solution(bestSolution);
         }
-
-        System.out.println("BEST RESULT ------------> "+ bestPoint);
         return bestSolution;
     }
 
-    public static void main(String[] args) {
-        Solution solution = initialisation("src\\dataSet\\p17");
-        solution = vnsFast(solution);
-        /*
+    public static Solution vnsBfs(Solution solution,int large,int tagetLocalOptNb){
+        VrpResolution.maxNbVoisin = (int) Math.pow(solution.nodesManager.nbClients + solution.nodesManager.nbDepots + 1,2);
         VrpResolution vrpResolution= new VrpResolution(solution);
-        VnbfsOpimizer opimizer = new VnbfsOpimizer(100,1,100);
-        List<Resolution> resolutions = opimizer.toApproximateOptimalSolution(vrpResolution);
+        VnsBfsOptimizer optimizer = new VnsBfsOptimizer(large,tagetLocalOptNb);
+        List<Resolution> resolutions = optimizer.toApproximateOptimalSolution(vrpResolution);
+        resolutions.add(vrpResolution);
         VrpResolution res = (VrpResolution) Collections.min(resolutions);
-        visulaliserSolution(res.solution);
-        Set<Resolution> st = new HashSet<>(resolutions);
-        System.out.println(st.size());
         System.out.println(Algo.evaluateSolution(res.solution));
-        */
+        return res.solution;
     }
 
-    public static void maintest(String[] args) {
-        Solution solution = initialisation("src\\dataSet\\p01");
-        solution = vnsLocally(solution,10,false);
+    public static void main(String[] args) {
+        String dataPath = "src\\dataSet\\p14";
+        String savePath = "src\\results\\p14";
+        Solution solution = initialisation(dataPath);
+        solution = vnsLocally(solution,100,false);
         solution = borderlineInsertion(solution);
+        Solution bestSolution = new Solution(solution);
+        for (int i=0;i<20;++i){
+            solution = vnsFast(solution,10);
+            //Si le temp est trop long, pensez à modifier ces deux paramètres,
+            solution = vnsBfs(solution,13,3);  // >=2  et >3
+
+            double diff = solution.evaluate() - bestSolution.evaluate();
+            if(diff<0){
+                bestSolution = new Solution(solution);
+                save(bestSolution,savePath);
+                visulaliserSolution(solution); //La désactivation de l'affichage des images interrompt le programme
+            }
+            else if(diff > bestSolution.evaluate()*0.1){
+                solution = new Solution(bestSolution);
+            }
+
+            System.out.println("------- global best: " +bestSolution.evaluate() + "-------");
+        }
 
     }
+
 }

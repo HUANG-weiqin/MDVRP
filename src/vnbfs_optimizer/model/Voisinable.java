@@ -6,5 +6,7 @@ public interface Voisinable {
     List<? extends  Voisinable> getAllVoisin();
     List<? extends  Voisinable> getRandomVoisin(int nb);
 
+    List<? extends  Voisinable> getDiversifiedVoisin(int nb);
+
     int distance(Voisinable other);
 }
